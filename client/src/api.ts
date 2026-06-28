@@ -36,3 +36,24 @@ export async function fetchTodayCounts(): Promise<TodayCounts> {
   if (!res.ok) throw new Error('Failed to fetch counts');
   return res.json() as Promise<TodayCounts>;
 }
+
+export interface KidNames {
+  kid1: string;
+  kid2: string;
+}
+
+export async function fetchNames(): Promise<KidNames> {
+  const res = await fetch('/api/names');
+  if (!res.ok) throw new Error('Failed to fetch names');
+  return res.json() as Promise<KidNames>;
+}
+
+export async function saveNames(names: KidNames): Promise<KidNames> {
+  const res = await fetch('/api/names', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(names),
+  });
+  if (!res.ok) throw new Error('Failed to save names');
+  return res.json() as Promise<KidNames>;
+}

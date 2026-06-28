@@ -78,16 +78,20 @@
 }
 
 .delete-btn {
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 16px;
-  padding: 6px 8px;
-  border-radius: 8px;
-  transition: color 0.15s, background 0.15s;
+  background: rgba(224, 85, 85, 0.1);
+  color: var(--danger);
+  font-size: 20px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background 0.15s;
   flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .delete-btn:active {
-  color: var(--danger);
-  background: rgba(224, 85, 85, 0.12);
+  background: rgba(224, 85, 85, 0.25);
 }

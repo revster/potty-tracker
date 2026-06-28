@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { addEntry, getEntries, removeEntry, getTodayCounts } from './db';
+import { addEntry, getEntries, removeEntry, getTodayCounts, getNames, setNames } from './db';
 
 const router = Router();
 
@@ -26,6 +26,21 @@ router.delete('/log/:id', (req: Request, res: Response) => {
 
 router.get('/today-counts', (_req: Request, res: Response) => {
   res.json(getTodayCounts());
+});
+
+router.get('/names', (_req: Request, res: Response) => {
+  res.json(getNames());
+});
+
+router.put('/names', (req: Request, res: Response) => {
+  const { kid1, kid2 } = req.body as { kid1: unknown; kid2: unknown };
+  if (typeof kid1 !== 'string' || typeof kid2 !== 'string') {
+    res.status(400).json({ error: 'kid1 and kid2 must be strings' });
+    return;
+  }
+  const names = { kid1: kid1.trim() || 'Kid 1', kid2: kid2.trim() || 'Kid 2' };
+  setNames(names);
+  res.json(names);
 });
 
 export default router;

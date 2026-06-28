@@ -1,27 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
-import { logEntry, fetchTodayCounts, TodayCounts } from '../api';
+import { logEntry, fetchTodayCounts, fetchNames, saveNames, TodayCounts, KidNames } from '../api';
 import LogButton from '../components/LogButton';
 import SettingsPanel from '../components/SettingsPanel';
 import './Home.css';
 
-const DEFAULT_NAMES = { kid1: 'Kid 1', kid2: 'Kid 2' };
-
-function loadNames() {
-  try {
-    const stored = localStorage.getItem('kidNames');
-    if (stored) return JSON.parse(stored) as { kid1: string; kid2: string };
-  } catch {
-    // ignore
-  }
-  return DEFAULT_NAMES;
-}
+const DEFAULT_NAMES: KidNames = { kid1: 'Kid 1', kid2: 'Kid 2' };
 
 export default function Home() {
   const [counts, setCounts] = useState<TodayCounts>({
     kid1: { poop: 0, pee: 0 },
     kid2: { poop: 0, pee: 0 },
   });
-  const [names, setNames] = useState(loadNames);
+  const [names, setNames] = useState<KidNames>(DEFAULT_NAMES);
   const [showSettings, setShowSettings] = useState(false);
 
   const refreshCounts = useCallback(async () => {
@@ -29,12 +19,13 @@ export default function Home() {
       const data = await fetchTodayCounts();
       setCounts(data);
     } catch {
-      // silently ignore — counts will just stay stale
+      // silently ignore
     }
   }, []);
 
   useEffect(() => {
     void refreshCounts();
+    fetchNames().then(setNames).catch(() => {});
   }, [refreshCounts]);
 
   const handleLog = async (kid: 1 | 2, type: 'poop' | 'pee') => {
@@ -46,9 +37,13 @@ export default function Home() {
     }
   };
 
-  const handleNameSave = (newNames: { kid1: string; kid2: string }) => {
-    localStorage.setItem('kidNames', JSON.stringify(newNames));
-    setNames(newNames);
+  const handleNameSave = async (newNames: KidNames) => {
+    try {
+      const saved = await saveNames(newNames);
+      setNames(saved);
+    } catch {
+      // silently ignore
+    }
     setShowSettings(false);
   };
 

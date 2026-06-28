@@ -10,9 +10,15 @@ export interface Entry {
   timestamp: string;
 }
 
+export interface Names {
+  kid1: string;
+  kid2: string;
+}
+
 interface Store {
   entries: Entry[];
   nextId: number;
+  names: Names;
 }
 
 function localTimestamp(): string {
@@ -28,8 +34,10 @@ function localDateString(): string {
 }
 
 function load(): Store {
-  if (!fs.existsSync(DB_PATH)) return { entries: [], nextId: 1 };
-  return JSON.parse(fs.readFileSync(DB_PATH, 'utf8')) as Store;
+  if (!fs.existsSync(DB_PATH)) return { entries: [], nextId: 1, names: { kid1: 'Kid 1', kid2: 'Kid 2' } };
+  const store = JSON.parse(fs.readFileSync(DB_PATH, 'utf8')) as Store;
+  if (!store.names) store.names = { kid1: 'Kid 1', kid2: 'Kid 2' };
+  return store;
 }
 
 function save(store: Store): void {
@@ -66,4 +74,14 @@ export function getTodayCounts() {
     }
   }
   return counts;
+}
+
+export function getNames(): Names {
+  return load().names;
+}
+
+export function setNames(names: Names): void {
+  const store = load();
+  store.names = names;
+  save(store);
 }

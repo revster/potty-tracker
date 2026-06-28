@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { KidNames } from '../api';
 import './SettingsPanel.css';
 
 interface Props {
-  names: { kid1: string; kid2: string };
-  onSave: (names: { kid1: string; kid2: string }) => void;
+  names: KidNames;
+  onSave: (names: KidNames) => void;
   onClose: () => void;
 }
 

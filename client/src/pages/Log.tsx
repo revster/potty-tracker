@@ -1,16 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchLog, deleteEntry, Entry } from '../api';
+import { fetchLog, deleteEntry, fetchNames, Entry, KidNames } from '../api';
 import './Log.css';
-
-function loadNames() {
-  try {
-    const stored = localStorage.getItem('kidNames');
-    if (stored) return JSON.parse(stored) as { kid1: string; kid2: string };
-  } catch {
-    // ignore
-  }
-  return { kid1: 'Kid 1', kid2: 'Kid 2' };
-}
 
 function formatTime(timestamp: string): string {
   const d = new Date(timestamp);
@@ -30,13 +20,14 @@ function formatDate(timestamp: string): string {
 
 export default function Log() {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const [names, setNames] = useState<KidNames>({ kid1: 'Kid 1', kid2: 'Kid 2' });
   const [loading, setLoading] = useState(true);
-  const names = loadNames();
 
   const refresh = useCallback(async () => {
     try {
-      const data = await fetchLog();
+      const [data, n] = await Promise.all([fetchLog(), fetchNames()]);
       setEntries(data);
+      setNames(n);
     } catch {
       // silently ignore
     } finally {
@@ -57,7 +48,6 @@ export default function Log() {
     }
   };
 
-  // Group entries by date
   const grouped: { date: string; items: Entry[] }[] = [];
   for (const entry of entries) {
     const date = formatDate(entry.timestamp);
@@ -99,7 +89,7 @@ export default function Log() {
                     onClick={() => handleDelete(entry.id)}
                     aria-label="Delete"
                   >
-                    ✕
+                    🗑️
                   </button>
                 </div>
               ))}

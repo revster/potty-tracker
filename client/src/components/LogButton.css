@@ -1,0 +1,60 @@
+.log-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  flex: 1;
+  border-radius: var(--radius);
+  padding: 12px 8px;
+  transition: transform 0.1s, opacity 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+.log-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.15s;
+  border-radius: inherit;
+}
+
+.log-btn--pressed::after {
+  opacity: 0.12;
+}
+
+.log-btn--pressed {
+  transform: scale(0.95);
+}
+
+.log-btn--poop {
+  background: linear-gradient(145deg, var(--poop), var(--poop-dim));
+  box-shadow: 0 4px 20px rgba(200, 118, 58, 0.35);
+}
+
+.log-btn--pee {
+  background: linear-gradient(145deg, var(--pee), var(--pee-dim));
+  box-shadow: 0 4px 20px rgba(212, 160, 23, 0.35);
+}
+
+.log-btn__emoji {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.log-btn__label {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.2px;
+}
+
+.log-btn__count {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}

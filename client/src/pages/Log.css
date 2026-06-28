@@ -1,0 +1,93 @@
+.log-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.log-header {
+  padding: 16px 20px 12px;
+  flex-shrink: 0;
+}
+
+.log-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.log-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.log-list {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 12px 16px;
+}
+
+.log-group {
+  margin-bottom: 8px;
+}
+
+.log-date-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 10px 8px 6px;
+}
+
+.log-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  border: 1px solid var(--border);
+}
+
+.log-emoji {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.log-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.log-kid {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.log-time {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.delete-btn {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.delete-btn:active {
+  color: var(--danger);
+  background: rgba(224, 85, 85, 0.12);
+}

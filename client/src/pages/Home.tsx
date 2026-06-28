@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { logEntry, fetchTodayCounts, fetchNames, saveNames, TodayCounts, KidNames } from '../api';
+import { logEntry, fetchTodayCounts, fetchNames, TodayCounts, KidNames } from '../api';
 import LogButton from '../components/LogButton';
-import SettingsPanel from '../components/SettingsPanel';
 import './Home.css';
 
 const DEFAULT_NAMES: KidNames = { kid1: 'Kid 1', kid2: 'Kid 2' };
@@ -12,7 +11,6 @@ export default function Home() {
     kid2: { poop: 0, pee: 0 },
   });
   const [names, setNames] = useState<KidNames>(DEFAULT_NAMES);
-  const [showSettings, setShowSettings] = useState(false);
 
   const refreshCounts = useCallback(async () => {
     try {
@@ -37,23 +35,10 @@ export default function Home() {
     }
   };
 
-  const handleNameSave = async (newNames: KidNames) => {
-    try {
-      const saved = await saveNames(newNames);
-      setNames(saved);
-    } catch {
-      // silently ignore
-    }
-    setShowSettings(false);
-  };
-
   return (
     <div className="home">
       <header className="home-header">
         <h1 className="home-title">Potty Tracker</h1>
-        <button className="settings-btn" onClick={() => setShowSettings(true)} aria-label="Settings">
-          ⚙️
-        </button>
       </header>
 
       <div className="grid">
@@ -95,14 +80,6 @@ export default function Home() {
           />
         </div>
       </div>
-
-      {showSettings && (
-        <SettingsPanel
-          names={names}
-          onSave={handleNameSave}
-          onClose={() => setShowSettings(false)}
-        />
-      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   height: 100dvh;
+  padding-top: var(--safe-top);
 }
 
 .page-area {
